@@ -11,8 +11,49 @@
 // @grant        none
 // ==/UserScript==
 
+
+//calling Google logic below
+if(document.location.href == "https://www.google.com"){
+    botForGoogle();
+}
+//calling Google logic above
+
+//calling Yandex logic below
+else if(document.location.href == "https://yandex.ru/"){
+    botForYandex();
+}
+//calling Yandex logic above
+
+
+//getCookieGoogle below
+function getCookieGoogle(name) {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+//getCookieGoogle above
+
+
+//getCookieYandex below
+function getCookieYandex(name) {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/y, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+//getCookieYandex above
+
+
+//function getRandom below
+function getRandom(min,max){
+    return Math.floor(Math.random()*(max-min)+min);
+}
+//function getRandom above
+
+
 //for Google below
-if(location.href = 'chrome-search://local-ntp/local-ntp.html'){
+function botForGoogle(){
     let sites = {
         "xn----7sbab5aqcbiddtdj1e1g.xn--p1ai":['Гобой','Как звучит флейта', 'Кларнет','Саксофон','Тромбон','Валторна'],
         "crushdrummers.ru":['Барабанное шоу','Заказать барабанное шоу','Шоу барабанщиков в Москве']
@@ -28,7 +69,7 @@ if(location.href = 'chrome-search://local-ntp/local-ntp.html'){
     if (btnK != undefined){
         document.cookie = "site="+site;
     }else if (location.hostname == "www.google.com"){
-        site = getCookie("site");
+        site = getCookieGoogle("site");
     }else{
         site = location.hostname;
     }
@@ -48,7 +89,6 @@ if(location.href = 'chrome-search://local-ntp/local-ntp.html'){
         setInterval(()=>{
             let index = getRandom(0,links.length);
             if (getRandom(0,101)>=80){
-
                 //below bot is choosing random which browser it is going to use next (for Yandex logic)
                 let browserRandomStartingSearch = ['https://www.google.com/','https://yandex.ru/'];
                 location.href = browserRandomStartingSearch[getRandom(-1, browserRandomStartingSearch.length)];
@@ -78,22 +118,12 @@ if(location.href = 'chrome-search://local-ntp/local-ntp.html'){
             setTimeout(()=>{document.pnnext.click();},getRandom(1000,4000));
         }
     }
-
-    function getRandom(min,max){
-        return Math.floor(Math.random()*(max-min)+min);
-    }
-    function getCookie(name) {
-        let matches = document.cookie.match(new RegExp(
-            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-        ));
-        return matches ? decodeURIComponent(matches[1]) : undefined;
-    }
 }
 //for Google above
 
 
 //for Yandex below
-if(location.href = 'https://yandex.ru/'){
+function botForYandex(){
     let sites = {
         "xn----7sbab5aqcbiddtdj1e1g.xn--p1ai":['Гобой','Как звучит флейта', 'Кларнет','Саксофон','Тромбон','Валторна'],
         "crushdrummers.ru":['Барабанное шоу','Заказать барабанное шоу','Шоу барабанщиков в Москве']
@@ -111,7 +141,7 @@ if(location.href = 'https://yandex.ru/'){
     if (miniSuggestButton != undefined){
         document.cookie = "site="+site;
     }else if (location.hostname == "yandex.ru"){
-        site = getCookie("site");
+        site = getCookieYandex("site");
     }else{
         site = location.hostname;
     }
@@ -123,7 +153,7 @@ if(location.href = 'https://yandex.ru/'){
             i++;
             if(i == keyword.length){
                 clearInterval(timerId);
-                miniSuggestButton.removeAttribute("target");
+                //miniSuggestButton.removeAttribute("target");
                 miniSuggestButton.click();
             }
         }, 1000);
@@ -133,7 +163,6 @@ if(location.href = 'https://yandex.ru/'){
         setInterval(() => {
             let index = getRandom(0, links.length);
             if(getRandom(0, 101) >= 70){
-
                 //below bot is choosing random which browser it is going to use next (for Yandex logic)
                 let browserRandomStartingSearch = ['https://www.google.com/','https://yandex.ru/'];
                 location.href = browserRandomStartingSearch[getRandom(-1, browserRandomStartingSearch.length)];
@@ -142,7 +171,7 @@ if(location.href = 'https://yandex.ru/'){
             }
             else if(links[index].href.indexOf(site) != -1)
             {
-                links[i].removeAttribute("target");
+                //links[i].removeAttribute("target");
                 links[index].click();
             }
         }, getRandom(3000, 7000))
@@ -174,15 +203,7 @@ if(location.href = 'https://yandex.ru/'){
         }
     }
 
-    function getRandom(min, max){
-        return Math.floor(Math.random()*(max-min)+min);
-    }
-
-    function getCookie(name) {
-        let matches = document.cookie.match(new RegExp(
-            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/y, '\\$1') + "=([^;]*)"
-        ));
-        return matches ? decodeURIComponent(matches[1]) : undefined;
-    }
 }
 //for Yandex above
+
+
